@@ -91,10 +91,10 @@ float FloatFromString(const char *data) {
 
 int main() {
 
-    //char *test = "32hhhh";
-    char* test = "3456678";
-
     try {
+        //char* test = "32hhhh";
+        //char* test = "3456678";
+        char* test = "dd33334";
         int iS = IntFromString(test);
         std::cout << "\n" << iS << std::endl;
     }
@@ -102,10 +102,9 @@ int main() {
         std::cout<< "\n" << e.what() << std::endl;
     }
 
-    std::string testBool("false");
-    const char * const s = testBool.c_str();
 
     try {
+        char* s = "false";
         bool bS = BoolFromString(s);
         std::cout <<"\n" << bS << std::endl;
     }
@@ -113,12 +112,11 @@ int main() {
         std::cout << "\n"<< e.what() << std::endl;
     }
 
-    //test = "0.223";
-    //test = "-0.777757";
-    test = "-.999";
-
     try
-    {
+    {   //char* test = "0.223";
+        //char* test = "-0.777757";
+        //char* test = "-.999";
+        char* test = "-0.888";
         float fS = FloatFromString(test);
         std::cout << "\n"<< fS << std::endl;
     }
