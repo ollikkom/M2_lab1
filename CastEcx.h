@@ -3,40 +3,31 @@
 #pragma once
 #include <iostream>
 #include <exception>
+#include <string>
 
 class CastException:
         public std::exception
 {
 public:
-    ~CastException() = default;
-
-    CastException() : std::exception()
-    {}
-
-    CastException(const char* str) : std::exception()
-    {}
-
+    const char * what() const noexcept{
+        return "Exception";
+    }
 };
 
 class ExcOverflow: public CastException
 {
 public:
-    ~ExcOverflow() = default;
-
-    ExcOverflow() : CastException("Overflow occured")
-    {}
-
+    const char * what() const noexcept{
+        return "Overflow occured";
+    }
 };
 
 class ExcSymbol: public CastException
 {
 public:
-    ~ExcSymbol() = default;
-
-    ExcSymbol() : CastException("Error in the symbol")
-    {}
-
-
+    const char * what() const noexcept{
+        return "Error in the symbol";
+    }
 };
 
 

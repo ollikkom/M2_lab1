@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CastEcx.h"
 #include <math.h>
+#include <limits>
 
 
 int IntFromString(const char *data) {
@@ -45,7 +46,6 @@ bool BoolFromString(const char *data) {
 
 float FloatFromString(const char *data) {
     float floatan = 0;
-    float floatan_prev = 0;
     int dotPos = -1, i = 0;
     bool isMinus = false;
     if ( data[0] == '-')
@@ -62,7 +62,8 @@ float FloatFromString(const char *data) {
                 throw ExcSymbol();
             }
             dotPos = i;
-            if (i == 0 || (i == 1 && isMinus)) {
+            if (i == 0 || (i == 1 && isMinus))
+            {
                 throw ExcSymbol();
             }
         }
@@ -71,11 +72,10 @@ float FloatFromString(const char *data) {
             if ( data[i] > 47 && data[i] < 58)
             {
                 floatan = floatan * 10 + (data[i] - 48);
-                if (floatan_prev > floatan)
+                if (floatan > std::numeric_limits<float>::max())
                 {
                     throw ExcOverflow();
                 }
-                floatan_prev = floatan;
             }
             else
             {
@@ -94,7 +94,8 @@ int main() {
     try {
         //char* test = "32hhhh";
         //char* test = "3456678";
-        char* test = "dd33334";
+        char* test = "-2147883799";
+
         int iS = IntFromString(test);
         std::cout << "\n" << iS << std::endl;
     }
@@ -112,11 +113,13 @@ int main() {
         std::cout << "\n"<< e.what() << std::endl;
     }
 
+
     try
     {   //char* test = "0.223";
         //char* test = "-0.777757";
         //char* test = "-.999";
-        char* test = "-0.888";
+        char* test = "83999967";
+        //char* test = "-0.888";
         float fS = FloatFromString(test);
         std::cout << "\n"<< fS << std::endl;
     }
