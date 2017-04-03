@@ -3,35 +3,49 @@
 #include <math.h>
 #include <limits>
 
+int NumS(const char symb)
+{
+    if (symb >= 48 && symb <= 57)
+        return symb - 48;
+    else
+        throw ExcSymbol();
+}
 
 int IntFromString(const char *data) {
+    if (data == "")
+        throw ExcSymbol();
     int integer = 0;
-    int integer_prev = 0, i = 0;
+    int sizeMax = 10;
     bool isMinus = false;
-    if ( data[0] == '-')
-    {
-        i = 1;
+    int i = 0;
+    if (data[0] == '-') {
         isMinus = true;
+        i = 1;
     }
-    for (i; i < strlen(data); i++)
-    {
-        if ( data[i] > 47 && data[i] < 58)
-        {
-            integer = integer * 10 + (data[i] - 48);
-            if (integer_prev > integer)
-            {
+    while (data[i] == '0') {
+        ++i;
+    }
+    if (strlen(data) - i > 10)
+        throw ExcOverflow();
+    else {
+        if (strlen(data) - i == 10) {
+            if (NumS(data[i]) > 2)
                 throw ExcOverflow();
-            }
-            integer_prev = integer;
         }
-        else
-        {
-            throw ExcSymbol();
+        for (i; i < strlen(data); ++i) {
+            if (isMinus) {
+                integer = integer * 10 - NumS(data[i]);
+                if (integer > 0)
+                    throw ExcOverflow();
+            }
+            else {
+                integer = integer * 10 + NumS(data[i]);
+                if (integer < 0)
+                    throw ExcOverflow();
+            }
         }
     }
-    if ( isMinus ) integer = -integer;
     return integer;
-
 }
 
 bool BoolFromString(const char *data) {
@@ -94,7 +108,7 @@ int main() {
     try {
         //char* test = "32hhhh";
         //char* test = "3456678";
-        char* test = "-2147883799";
+        char* test = "-2147483648";
 
         int iS = IntFromString(test);
         std::cout << "\n" << iS << std::endl;
